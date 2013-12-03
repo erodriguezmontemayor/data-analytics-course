@@ -1,6 +1,6 @@
 ---
-title       : Factor Analysis Slides
-subtitle    : Boat Case
+title       : Slidify Demo
+subtitle    : Here is a first example
 author      : Stratos Moschidis
 job         : 
 framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
@@ -20,17 +20,26 @@ mode        : selfcontained # {standalone, draft}
 
 ## Slide 2:R code in the slide
 
-```{r}
+
+```r
 summary(cars)
 ```
+
+```
+##      speed           dist    
+##  Min.   : 4.0   Min.   :  2  
+##  1st Qu.:12.0   1st Qu.: 26  
+##  Median :15.0   Median : 36  
+##  Mean   :15.4   Mean   : 43  
+##  3rd Qu.:19.0   3rd Qu.: 56  
+##  Max.   :25.0   Max.   :120
+```
+
 
 --- .class #id 
 
 ##Slide 3:A plot in the presentation
 
 <b>let's put some plot here:</b>
-```{r echo=FALSE}
-a<-1:10
-b<-21:30
-plot(a,b)
-```
+![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2.png) 
+
