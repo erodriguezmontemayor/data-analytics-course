@@ -1,0 +1,36 @@
+<div class="container">
+<html> 
+  <head> 
+    <script src="jquery.js"></script> 
+    <script> 
+    $(function(){
+      $("#includedContent").load("include.html"); 
+    });
+    </script> 
+  </head> 
+  <body>
+     <div id="includedContent"></div>
+  </body> 
+</html>
+
+```{r echo=FALSE,include=FALSE,results='hide'}
+source("../../code/session15/session15.R")
+library(xtable)
+```
+
+```{r  echo=FALSE,results='asis',warning=FALSE,error=FALSE,message=FALSE}
+
+session15<-xtable(summary(fit),caption="Regression Analysis")
+print(session15,type="html",html.table.attributes = "class='table table-striped table-hover table-bordered'",caption.placement="top")
+
+```
+Residual standard error: `r sqrt(deviance(fit)/df.residual(fit))` on `r fit$df` degrees of freedom<br>
+Multiple R-squared: `r fit$r.squared` ,  Adjusted R-squared: `r fit$adj.r.squared` <br>
+F-statistic: `r fit$fstatistic["value"]` on   `r fit$fstatistic["numdf"]` and `r fit$fstatistic["dendf"]` <br>
+p-value: `r pf(fit$fstatistic[1], fit$fstatistic[2], fit$fstatistic[3],lower.tail = FALSE)` <br><br><br>
+
+```{r}
+print(xtable(dwtest(fit)),type="html")
+```
+
+</div>
