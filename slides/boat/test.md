@@ -1,6 +1,6 @@
 ---
-title       : Slidify Demo
-subtitle    : Here is a first example
+title       : Factor Analysis Slides
+subtitle    : Boat Case
 author      : Stratos Moschidis
 job         : 
 framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
