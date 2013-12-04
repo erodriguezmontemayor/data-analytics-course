@@ -1,0 +1,164 @@
+```{r include=FALSE}
+## load the FactoMineR library for factor analysis
+library(FactoMineR)
+## load the xtable library for table HTML output
+library(xtable)
+## load the Hmisc library for minor ticks in graphs
+library(Hmisc)
+
+## function to get the eigenvalues
+getdataforeigentable <- function(eigenvalues, eigenvalues.limit) {
+  data.for.eigentable <- c()
+
+  for(i in 1:nrow(eigenvalues)){
+    if(eigenvalues[i,1] > eigenvalues.limit){
+      
+    }else{
+      data.for.eigentable <- eigenvalues[1:i-1,]
+      break
+    }
+  }
+  
+  return(data.for.eigentable)
+}
+
+## function to get the corfacotr
+getcorfactortable <- function(corfactor, corfactor.limit){
+  for(i in 1:nrow(corfactor)){
+    for(j in 1:ncol(corfactor)){
+      if(corfactor[i,j] < corfactor.limit){
+        corfactor[i,j] <- NA
+      }
+    }
+  }
+  return(corfactor)
+}
+```
+
+### Load the dataset
+Load the whole dataset into mydatatemp. We can set the eigenvalues limit for the output table and corfactor limit for output correlation table.
+
+```{r}
+mydatatemp <- read.csv("../../data/boat/boats.csv", header = TRUE)
+eigenvalues.limit <- 1
+corfactor.limit <- 0.4
+```
+
+Extract a subset of dataset to be used in Principal component analysis for Question 1. 
+```{r}
+mydata <- mydatatemp[,2:30]
+```
+
+--- .class #id 
+
+### Principal Component Analysis
+We used PCA function from FactoMineR package. Store the PCA results into result object as following.
+```{r}
+result <- PCA(mydata, graph=FALSE)
+```
+
+--- .class #id 
+
+### Results
+
+PCA results are stored in result object. Components of PCA can be accessed using following component names.
+
+
+No |Name         |      Description                          
+------------|-----|---------|-----------
+1 | "$eig"        |     eigenvalues                        
+2 | "$var"         |    results for the variables         
+3 | "$var$coord"    |   coord. for the variables          
+4 | "$var$cor"       |  correlations variables - dimensions
+5 | "$var$cos2"      |   cos2 for the variables             
+6 | "$var$contrib"    |  contributions of the variables 
+
+--- .class #id 
+
+### Continue
+
+No |Name         |      Description                          
+------------|-----|---------|-----------
+7 | "$ind"        |      results for the individuals        
+8 | "$ind$coord"   |     coord. for the individuals         
+9 | "$ind$cos2"   |      cos2 for the individuals           
+10 |"$ind$contrib"  |    contributions of the individuals  
+11 |"$call"       |      summary statistics              
+12 |"$call$centre"  |    mean of the variables            
+13 |"$call$ecart.type" | standard error of the variables  
+14 |"$call$row.w"    |   weights for the individuals        
+15 |"$call$col.w"   |    weights for the variables
+
+--- .class #id 
+
+### Output and tables
+
+#### 1. Eigen Values &amp; Percentage of Total Variance
+
+Get the eigenvalues object. Create a table using xtable function from xtable library. However, we don't want to see all the data. We want to see only component which has eigenvalues greater than `r eigenvalues.limit`,
+
+--- .class #id 
+
+
+```{r comment=NA, results='asis'}
+eigenvalues<-result$eig
+
+data.for.eigentable <- getdataforeigentable(eigenvalues, eigenvalues.limit)
+
+print(xtable(head(data.for.eigentable), digits=3), comment = FALSE, include.rownames = TRUE, type='HTML')
+
+```
+
+--- .class #id 
+
+#### 2. Scree Plot
+Generate a scree plot using following command. We assign the labels for x axis and y axis manually.
+```{r fig.height=4,fig.align='center',fig.width=5}
+## start to draw the plot
+plot(eigenvalues$eigenvalue, type="o", xlab="Component Number", ylab="Eigenvalue", col=colors()[26], lwd=2)
+## add minor ticks
+minor.tick(nx=5, ny=2)
+## add abline at y = 1
+abline(h=1,lty=2,col=colors()[34]) 
+
+```
+
+--- .class #id 
+
+#### 3. Correlation of old variables with new factors
+
+Correlation matrix of each new factor with the initial variables can be accessed with $var$cor component in result object. Create a table using xtable function from xtable library. However, we don't want to see all the correlations but which has correlation coefficient greater than `r corfactor.limit`.
+
+--- .class #id 
+
+```{r results='asis'}
+corfactor <- result$var$cor
+
+corfactor <- getcorfactortable(corfactor, corfactor.limit)
+
+print(xtable(head(corfactor), digits=3), comment = FALSE, include.rownames = TRUE, type='HTML')
+```
+
+--- .class #id 
+
+#### 4. Matrix:Respondents - Factors
+
+New matrix(number of respondents X number of factors) can be accessed at $ind$coord component of result object. First 10 rows are ouput as an example.
+
+```{r results='asis'}
+factormatrix <- result$ind$coord
+
+print(xtable(head(factormatrix[1:10,]), digits=3), comment = FALSE, include.rownames = TRUE, type='HTML')
+```
+
+--- .class #id 
+
+#### 5. Other interesting plots
+
+```{r} 
+plot(result$var$cos2)
+```
+
+```{r} 
+plot(result$ind$cos2)
+```
