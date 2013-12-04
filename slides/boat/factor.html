@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Factor Analysis Slideshow</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Factor Analysis Slideshow">
+  <meta name="author" content="Stratos Moschidis">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+    
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+    <!-- END LOGO SLIDE -->
+    
+
+    <!-- TITLE SLIDE -->
+    <!-- Should I move this to a Local Layout File? -->
+    <slide class="title-slide segue nobackground">
+      <hgroup class="auto-fadein">
+        <h1>Factor Analysis Slideshow</h1>
+        <h2>Boat Case</h2>
+        <p>Stratos Moschidis<br/></p>
+      </hgroup>
+          </slide>
+
+    <!-- SLIDES -->
+      <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h3>Load the dataset</h3>
+  </hgroup>
+  <article>
+    <p>Load the whole dataset into mydatatemp. We can set the eigenvalues limit for the output table and corfactor limit for output correlation table.</p>
+
+<pre><code class="r">mydatatemp &lt;- read.csv(&quot;../../data/boat/boats.csv&quot;, header = TRUE)
+eigenvalues.limit &lt;- 1
+corfactor.limit &lt;- 0.4
+</code></pre>
+
+<p>Extract a subset of dataset to be used in Principal component analysis for Question 1. </p>
+
+<pre><code class="r">mydata &lt;- mydatatemp[, 2:30]
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h3>Principal Component Analysis</h3>
+  </hgroup>
+  <article>
+    <p>We used PCA function from FactoMineR package. Store the PCA results into result object as following.</p>
+
+<pre><code class="r">result &lt;- PCA(mydata, graph = FALSE)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h3>Results</h3>
+  </hgroup>
+  <article>
+    <p>PCA results are stored in result object. Components of PCA can be accessed using following component names.</p>
+
+<table><thead>
+<tr>
+<th>No</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>1</td>
+<td>&quot;$eig&quot;</td>
+<td>eigenvalues</td>
+</tr>
+<tr>
+<td>2</td>
+<td>&quot;$var&quot;</td>
+<td>results for the variables</td>
+</tr>
+<tr>
+<td>3</td>
+<td>&quot;$var$coord&quot;</td>
+<td>coord. for the variables</td>
+</tr>
+<tr>
+<td>4</td>
+<td>&quot;$var$cor&quot;</td>
+<td>correlations variables - dimensions</td>
+</tr>
+<tr>
+<td>5</td>
+<td>&quot;$var$cos2&quot;</td>
+<td>cos2 for the variables</td>
+</tr>
+<tr>
+<td>6</td>
+<td>&quot;$var$contrib&quot;</td>
+<td>contributions of the variables</td>
+</tr>
+</tbody></table>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h3>Continue</h3>
+  </hgroup>
+  <article>
+    <table><thead>
+<tr>
+<th>No</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>7</td>
+<td>&quot;$ind&quot;</td>
+<td>results for the individuals</td>
+</tr>
+<tr>
+<td>8</td>
+<td>&quot;$ind$coord&quot;</td>
+<td>coord. for the individuals</td>
+</tr>
+<tr>
+<td>9</td>
+<td>&quot;$ind$cos2&quot;</td>
+<td>cos2 for the individuals</td>
+</tr>
+<tr>
+<td>10</td>
+<td>&quot;$ind$contrib&quot;</td>
+<td>contributions of the individuals</td>
+</tr>
+<tr>
+<td>11</td>
+<td>&quot;$call&quot;</td>
+<td>summary statistics</td>
+</tr>
+<tr>
+<td>12</td>
+<td>&quot;$call$centre&quot;</td>
+<td>mean of the variables</td>
+</tr>
+<tr>
+<td>13</td>
+<td>&quot;$call$ecart.type&quot;</td>
+<td>standard error of the variables</td>
+</tr>
+<tr>
+<td>14</td>
+<td>&quot;$call$row.w&quot;</td>
+<td>weights for the individuals</td>
+</tr>
+<tr>
+<td>15</td>
+<td>&quot;$call$col.w&quot;</td>
+<td>weights for the variables</td>
+</tr>
+</tbody></table>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h3>Output and tables</h3>
+  </hgroup>
+  <article>
+    <h4>1. Eigen Values &amp; Percentage of Total Variance</h4>
+
+<p>Get the eigenvalues object. Create a table using xtable function from xtable library. However, we don&#39;t want to see all the data. We want to see only component which has eigenvalues greater than 1,</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="class" id="id" style="background:;">
+  <hgroup>
+    
+  </hgroup>
+  <article>
+    <pre><code class="r">eigenvalues &lt;- result$eig
+
+data.for.eigentable &lt;- getdataforeigentable(eigenvalues, eigenvalues.limit)
+
+print(xtable(head(data.for.eigentable), digits = 3), comment = FALSE, include.rownames = TRUE, 
+    type = &quot;HTML&quot;)
+</code></pre>
+
+<TABLE border=1>
+<TR> <TH>  </TH> <TH> eigenvalue </TH> <TH> percentage of variance </TH> <TH> cumulative percentage of variance </TH>  </TR>
+  <TR> <TD align="right"> comp 1 </TD> <TD align="right"> 8.433 </TD> <TD align="right"> 29.078 </TD> <TD align="right"> 29.078 </TD> </TR>
+  <TR> <TD align="right"> comp 2 </TD> <TD align="right"> 2.334 </TD> <TD align="right"> 8.047 </TD> <TD align="right"> 37.125 </TD> </TR>
+  <TR> <TD align="right"> comp 3 </TD> <TD align="right"> 1.863 </TD> <TD align="right"> 6.423 </TD> <TD align="right"> 43.548 </TD> </TR>
+  <TR> <TD align="right"> comp 4 </TD> <TD align="right"> 1.458 </TD> <TD align="right"> 5.026 </TD> <TD align="right"> 48.574 </TD> </TR>
+  <TR> <TD align="right"> comp 5 </TD> <TD align="right"> 1.207 </TD> <TD align="right"> 4.163 </TD> <TD align="right"> 52.738 </TD> </TR>
+   </TABLE>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h4>2. Scree Plot</h4>
+  </hgroup>
+  <article>
+    <p>Generate a scree plot using following command. We assign the labels for x axis and y axis manually.</p>
+
+<pre><code class="r">## start to draw the plot
+plot(eigenvalues$eigenvalue, type = &quot;o&quot;, xlab = &quot;Component Number&quot;, ylab = &quot;Eigenvalue&quot;, 
+    col = colors()[26], lwd = 2)
+## add minor ticks
+minor.tick(nx = 5, ny = 2)
+## add abline at y = 1
+abline(h = 1, lty = 2, col = colors()[34])
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-6.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h4>3. Correlation of old variables with new factors</h4>
+  </hgroup>
+  <article>
+    <p>Correlation matrix of each new factor with the initial variables can be accessed with $var$cor component in result object. Create a table using xtable function from xtable library. However, we don&#39;t want to see all the correlations but which has correlation coefficient greater than 0.4.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="class" id="id" style="background:;">
+  <hgroup>
+    
+  </hgroup>
+  <article>
+    <pre><code class="r">corfactor &lt;- result$var$cor
+
+corfactor &lt;- getcorfactortable(corfactor, corfactor.limit)
+
+print(xtable(head(corfactor), digits = 3), comment = FALSE, include.rownames = TRUE, 
+    type = &quot;HTML&quot;)
+</code></pre>
+
+<TABLE border=1>
+<TR> <TH>  </TH> <TH> Dim.1 </TH> <TH> Dim.2 </TH> <TH> Dim.3 </TH> <TH> Dim.4 </TH> <TH> Dim.5 </TH>  </TR>
+  <TR> <TD align="right"> Q1_1 </TD> <TD align="right">  </TD> <TD align="right">  </TD> <TD align="right">  </TD> <TD align="right">  </TD> <TD align="right">  </TD> </TR>
+  <TR> <TD align="right"> Q1_2 </TD> <TD align="right">  </TD> <TD align="right">  </TD> <TD align="right"> 0.632 </TD> <TD align="right">  </TD> <TD align="right">  </TD> </TR>
+  <TR> <TD align="right"> Q1_3 </TD> <TD align="right"> 0.647 </TD> <TD align="right">  </TD> <TD align="right">  </TD> <TD align="right">  </TD> <TD align="right">  </TD> </TR>
+  <TR> <TD align="right"> Q1_4 </TD> <TD align="right"> 0.401 </TD> <TD align="right">  </TD> <TD align="right">  </TD> <TD align="right">  </TD> <TD align="right"> 0.458 </TD> </TR>
+  <TR> <TD align="right"> Q1_5 </TD> <TD align="right"> 0.575 </TD> <TD align="right">  </TD> <TD align="right">  </TD> <TD align="right">  </TD> <TD align="right">  </TD> </TR>
+  <TR> <TD align="right"> Q1_6 </TD> <TD align="right"> 0.626 </TD> <TD align="right">  </TD> <TD align="right">  </TD> <TD align="right">  </TD> <TD align="right">  </TD> </TR>
+   </TABLE>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h4>4. Matrix:Respondents - Factors</h4>
+  </hgroup>
+  <article>
+    <p>New matrix(number of respondents X number of factors) can be accessed at $ind$coord component of result object. First 10 rows are ouput as an example.</p>
+
+<pre><code class="r">factormatrix &lt;- result$ind$coord
+
+print(xtable(head(factormatrix[1:10, ]), digits = 3), comment = FALSE, include.rownames = TRUE, 
+    type = &quot;HTML&quot;)
+</code></pre>
+
+<TABLE border=1>
+<TR> <TH>  </TH> <TH> Dim.1 </TH> <TH> Dim.2 </TH> <TH> Dim.3 </TH> <TH> Dim.4 </TH> <TH> Dim.5 </TH>  </TR>
+  <TR> <TD align="right"> 1 </TD> <TD align="right"> 1.711 </TD> <TD align="right"> 0.664 </TD> <TD align="right"> -1.815 </TD> <TD align="right"> -0.600 </TD> <TD align="right"> 1.570 </TD> </TR>
+  <TR> <TD align="right"> 2 </TD> <TD align="right"> 6.450 </TD> <TD align="right"> -0.950 </TD> <TD align="right"> -1.488 </TD> <TD align="right"> 0.666 </TD> <TD align="right"> -0.561 </TD> </TR>
+  <TR> <TD align="right"> 3 </TD> <TD align="right"> 4.549 </TD> <TD align="right"> 0.601 </TD> <TD align="right"> 0.027 </TD> <TD align="right"> 1.439 </TD> <TD align="right"> -1.224 </TD> </TR>
+  <TR> <TD align="right"> 4 </TD> <TD align="right"> 4.457 </TD> <TD align="right"> -0.980 </TD> <TD align="right"> -0.221 </TD> <TD align="right"> 1.816 </TD> <TD align="right"> -0.463 </TD> </TR>
+  <TR> <TD align="right"> 5 </TD> <TD align="right"> 1.393 </TD> <TD align="right"> -0.975 </TD> <TD align="right"> -2.210 </TD> <TD align="right"> -0.413 </TD> <TD align="right"> -0.197 </TD> </TR>
+  <TR> <TD align="right"> 6 </TD> <TD align="right"> 4.214 </TD> <TD align="right"> 1.652 </TD> <TD align="right"> -0.597 </TD> <TD align="right"> -0.682 </TD> <TD align="right"> 2.318 </TD> </TR>
+   </TABLE>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h4>5. Other interesting plots</h4>
+  </hgroup>
+  <article>
+    <pre><code class="r">plot(result$var$cos2)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-9.png" alt="plot of chunk unnamed-chunk-9"> </p>
+
+<pre><code class="r">plot(result$ind$cos2)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-10.png" alt="plot of chunk unnamed-chunk-10"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+
+  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+<!-- Grab CDN jQuery, fall back to local if offline -->
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+<script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery-1.7.min.js"><\/script>')</script>
+<!-- Load Javascripts for Widgets -->
+<!-- LOAD HIGHLIGHTER JS FILES -->
+<script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<!-- DONE LOADING HIGHLIGHTER JS FILES -->
+</html>
