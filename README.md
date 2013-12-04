@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # About
 This is a Github pages theme based on Twitter Bootstrap for your Github projects
 # Demo:
@@ -22,3 +23,9 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/gpl.html>.
+=======
+gh-pages-theme
+==============
+
+Twitter Bootstrap Template for Github Pages (gh-pages)
+>>>>>>> e9dc787f9352e5b58a8c0b8628182ef72fa2a319
