@@ -16,8 +16,9 @@
 
 
 
+
 <!-- html table generated in R 2.15.3 by xtable 1.7-1 package -->
-<!-- Thu Dec 05 01:33:59 2013 -->
+<!-- Thu Dec 05 18:42:12 2013 -->
 <TABLE class='table table-striped table-hover table-bordered'>
 <CAPTION ALIGN="top"> Regression Analysis </CAPTION>
 <TR> <TH>  </TH> <TH> Estimate </TH> <TH> Std. Error </TH> <TH> t value </TH> <TH> Pr(&gt |t|) </TH>  </TR>
@@ -26,28 +27,25 @@
   <TR> <TD align="right"> X1 </TD> <TD align="right"> -0.1767 </TD> <TD align="right"> 0.0128 </TD> <TD align="right"> -13.76 </TD> <TD align="right"> 0.0000 </TD> </TR>
    </TABLE>
 
+
 Residual standard error: 1.8562 on 27 degrees of freedom<br>
-Multiple R-squared:  ,  Adjusted R-squared:  <br>
-F-statistic:  on    and  <br>
-p-value: 
+Multiple R-squared: 0.8788 ,  Adjusted R-squared: 0.8698 <br>
+F-statistic: 97.8726 on   2 and 27 <br>
+p-value: 4.2462 &times; 10<sup>-13</sup> <br><br><br>
 
-```
-
-Error in pf(q, df1, df2, lower.tail, log.p) : 
-  Non-numeric argument to mathematical function
-
-```
-
- <br><br><br>
 
 
 ```r
-print(xtable(dwtest(fit)), type = "html")
+dwtest(summary(fit))
 ```
 
 ```
-## Error: no applicable method for 'xtable' applied to an object of class
-## "htest"
+## 
+## 	Durbin-Watson test
+## 
+## data:  summary(fit) 
+## DW = 1.644, p-value = 0.07822
+## alternative hypothesis: true autocorrelation is greater than 0
 ```
 
 
