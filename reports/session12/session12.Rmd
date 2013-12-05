@@ -15,25 +15,67 @@
 
 
 ```{r echo=FALSE,include=FALSE,results='hide'}
-source("../../code/session15/session15.R")
 library(xtable)
+sal91 <- read.csv("C:/Users/STRATOS/Desktop/R/githubsite/data-analytics-course/data/session12/sal91.csv", sep=";")
+fit1<-lm(SAL92~AGE,data=sal91)
+printme11<-as.list(summary(fit1))
+fit2<-lm(SAL92~EXPERI,data=sal91)
+printme12<-as.list(summary(fit2))
+fit3<-lm(SAL92~SEX,data=sal91)
+printme13<-as.list(summary(fit3))
+fit4<-lm(EXPERI~AGE,data=sal91)
+printme14<-as.list(summary(fit4))
 ```
 
 ```{r  echo=FALSE,results='asis',warning=FALSE,error=FALSE,message=FALSE}
 
-session15<-xtable(summary(fit),caption="Regression Analysis")
-print(session15,type="html",html.table.attributes = "class='table table-striped table-hover table-bordered'",caption.placement="top")
+fm1<-xtable(summary(fit1),caption="Regression Analysis - Dependent variable SAL92")
+print(fm1,type="html",html.table.attributes = "class='table table-striped table-hover table-bordered'",caption.placement="top")
 
 ```
 
-Residual standard error: `r sqrt(deviance(fit)/df.residual(fit))` on `r fit$df` degrees of freedom<br>
-Multiple R-squared: `r printme$r.squared` ,  Adjusted R-squared: `r printme$adj.r.squared` <br>
-F-statistic: `r printme$fstatistic["value"]` on   `r printme$fstatistic["numdf"]` and `r printme$fstatistic["dendf"]` <br>
-p-value: `r pf(printme$fstatistic[1], printme$fstatistic[2], printme$fstatistic[3],lower.tail = FALSE)` <br><br><br>
+Residual standard error: `r sqrt(deviance(fit1)/df.residual(fit1))` on `r fit1$df` degrees of freedom<br>
+Multiple R-squared: `r printme11$r.squared` ,  Adjusted R-squared: `r printme11$adj.r.squared` <br>
+F-statistic: `r printme11$fstatistic["value"]` on   `r printme11$fstatistic["numdf"]` and `r printme1$fstatistic["dendf"]` <br>
+p-value: `r pf(printme11$fstatistic[1], printme11$fstatistic[2], printme11$fstatistic[3],lower.tail = FALSE)` <br><br>
 
+```{r  echo=FALSE,results='asis',warning=FALSE,error=FALSE,message=FALSE}
 
-```{r}
-dwtest(summary(fit))
+fm2<-xtable(summary(fit2),caption="Regression Analysis - Dependent variable SAL92")
+print(fm2,type="html",html.table.attributes = "class='table table-striped table-hover table-bordered'",caption.placement="top")
+
 ```
+
+Residual standard error: `r sqrt(deviance(fit2)/df.residual(fit2))` on `r fit2$df` degrees of freedom<br>
+Multiple R-squared: `r printme12$r.squared` ,  Adjusted R-squared: `r printme12$adj.r.squared` <br>
+F-statistic: `r printme12$fstatistic["value"]` on   `r printme12$fstatistic["numdf"]` and `r printme12$fstatistic["dendf"]` <br>
+p-value: `r pf(printme12$fstatistic[1], printme12$fstatistic[2], printme12$fstatistic[3],lower.tail = FALSE)` <br><br>
+
+```{r  echo=FALSE,results='asis',warning=FALSE,error=FALSE,message=FALSE}
+
+fm3<-xtable(summary(fit3),caption="Regression Analysis - Dependent variable SAL92")
+print(fm3,type="html",html.table.attributes = "class='table table-striped table-hover table-bordered'",caption.placement="top")
+
+```
+
+Residual standard error: `r sqrt(deviance(fit3)/df.residual(fit3))` on `r fit3$df` degrees of freedom<br>
+Multiple R-squared: `r printme13$r.squared` ,  Adjusted R-squared: `r printme13$adj.r.squared` <br>
+F-statistic: `r printme13$fstatistic["value"]` on   `r printme13$fstatistic["numdf"]` and `r printme13$fstatistic["dendf"]` <br>
+p-value: `r pf(printme13$fstatistic[1], printme13$fstatistic[2], printme13$fstatistic[3],lower.tail = FALSE)` <br><br>
+
+```{r  echo=FALSE,results='asis',warning=FALSE,error=FALSE,message=FALSE}
+
+fm4<-xtable(summary(fit4),caption="Regression Analysis - Dependent variable EXPERI")
+print(fm4,type="html",html.table.attributes = "class='table table-striped table-hover table-bordered'",caption.placement="top")
+
+```
+
+Residual standard error: `r sqrt(deviance(fit4)/df.residual(fit4))` on `r fit4$df` degrees of freedom<br>
+Multiple R-squared: `r printme14$r.squared` ,  Adjusted R-squared: `r printme14$adj.r.squared` <br>
+F-statistic: `r printme14$fstatistic["value"]` on   `r printme14$fstatistic["numdf"]` and `r printme14$fstatistic["dendf"]` <br>
+p-value: `r pf(printme14$fstatistic[1], printme14$fstatistic[2], printme14$fstatistic[3],lower.tail = FALSE)` <br><br><br>
+
+
+
 
 </div>
