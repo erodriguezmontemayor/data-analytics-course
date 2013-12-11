@@ -1,0 +1,44 @@
+<div class="container">
+<center>
+<h2>TEMPLATE REPORT FOR LOGISTIC REGRESSION</h2>
+
+<h2>CASE: MARKET RESEARCH, MARKET SEGMENTATION, PURCHASE DRIVERS</h2>
+
+</center>
+<hr>
+
+<!--Proccess Parameters:
+
+Please first edit the parameters in the chunk below.-->
+
+```{r scree,echo=FALSE,include=FALSE,results='hide'}
+library(xtable)
+library(Hmisc)
+#run silently logistic regression and hide results from end users
+#read the data set
+mydata <- read.csv("../../data/boat/boats.csv", header = TRUE)
+#read columns for Q1-Q18
+mydata<-mydata[,2:82]
+#define dependent variable
+dep_data<-mydata$Q18
+#define independent variables
+mydata$Q18<-NULL
+#create logistic regression model
+ind_data<-as.matrix(mydata)
+mylogreg <- glm(dep_data ~ ind_data, family = "binomial")
+#display results
+print(summary(mylogreg))
+# 95% CI for the coefficients
+ci95<-confint(mylogreg)
+# exponentiated coefficients
+expo_coef<-exp(coef(mylogreg))
+# 95% CI for exponentiated coefficients
+expo_coef95<-exp(confint(mylogreg))
+# predicted values
+predicted_values<-predict(mylogreg, type="response") 
+# residuals
+residuals<-residuals(mylogreg, type="deviance")
+
+```
+
+</div>
