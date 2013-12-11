@@ -145,4 +145,19 @@ print(scores,type="html",html.table.attributes = "class='table table-striped tab
 
 ```
 
+```{r echo=FALSE,results='hide',include=FALSE}
+library(xlsx)
+all.tables<-list(first_res,summary_table,eigenvalues,corfactornew,scores)
+##write all printed tables in .xls file for further analysis##
+
+write.xlsx(first_res,file='tables.xls',sheetName="Sheet1")
+write.xlsx(summary_table,file='tables.xls',sheetName="Sheet2",append=TRUE)
+write.xlsx(eigenvalues,file='tables.xls',sheetName="Sheet3",append=TRUE)
+write.xlsx(corfactornew,file='tables.xls',sheetName="Sheet4",append=TRUE)
+write.xlsx(scores,file='tables.xls',sheetName="Sheet5",append=TRUE)
+
+
+
+```
+
 </div>

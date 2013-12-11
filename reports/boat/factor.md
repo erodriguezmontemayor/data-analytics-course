@@ -26,7 +26,7 @@ The Business Decision</h3></center>
 <p><h4>In this case the managers use data from a **market research survey** of a few thousand potential prospects and customers. In this particular case there are 2000 respondents each having answered 75 questions, as this data summary shows.</h4></p> 
 
 <!-- html table generated in R 2.15.3 by xtable 1.7-1 package -->
-<!-- Wed Dec 11 04:05:33 2013 -->
+<!-- Thu Dec 12 00:02:05 2013 -->
 <TABLE class='table table-striped table-hover table-bordered'>
 <CAPTION ALIGN="top"> Respondents - Questions </CAPTION>
 <TR> <TH>  </TH> <TH> No.Respondents </TH> <TH> No.Questions </TH>  </TR>
@@ -40,7 +40,7 @@ The Business Decision</h3></center>
 
 <center>
 <!-- html table generated in R 2.15.3 by xtable 1.7-1 package -->
-<!-- Wed Dec 11 04:05:33 2013 -->
+<!-- Thu Dec 12 00:02:05 2013 -->
 <TABLE class='table table-striped table-hover table-bordered'>
 <CAPTION ALIGN="top"> First Respondent </CAPTION>
 <TR> <TH>  </TH> <TH> Q1_1 </TH> <TH> Q1_2 </TH> <TH> Q1_3 </TH> <TH> Q1_4 </TH> <TH> Q1_5 </TH> <TH> Q1_6 </TH> <TH> Q1_7 </TH> <TH> Q1_8 </TH> <TH> Q1_9 </TH> <TH> Q1_10 </TH>  </TR>
@@ -60,7 +60,7 @@ The Business Decision</h3></center>
 <center>
 
 <!-- html table generated in R 2.15.3 by xtable 1.7-1 package -->
-<!-- Wed Dec 11 04:05:33 2013 -->
+<!-- Thu Dec 12 00:02:05 2013 -->
 <TABLE class='table table-striped table-hover table-bordered'>
 <CAPTION ALIGN="top"> Summary Table of Boat Data for first 10 Questions </CAPTION>
 <TR> <TH>  </TH> <TH>      Q1_1 </TH> <TH>      Q1_2 </TH> <TH>      Q1_3 </TH> <TH>      Q1_4 </TH> <TH>      Q1_5 </TH> <TH>      Q1_6 </TH> <TH>      Q1_7 </TH> <TH>      Q1_8 </TH> <TH>      Q1_9 </TH> <TH>     Q1_10 </TH>  </TR>
@@ -119,7 +119,7 @@ Let's see the correlation of only the attributes used for dimemsionality reducti
 <h3><center>Get the eigenvalues</center></h3>
 
 <!-- html table generated in R 2.15.3 by xtable 1.7-1 package -->
-<!-- Wed Dec 11 04:05:33 2013 -->
+<!-- Thu Dec 12 00:02:06 2013 -->
 <TABLE class='table table-striped table-hover table-bordered'>
 <CAPTION ALIGN="top"> Eigenvalues Table </CAPTION>
 <TR> <TH>  </TH> <TH> Eigenvalues </TH> <TH> percentage of variance </TH> <TH> cumulative percentage of variance </TH>  </TR>
@@ -163,7 +163,7 @@ Let's see the correlation of only the attributes used for dimemsionality reducti
 <center><h4>Get the Correlation of old variables with new factors<h4></center>
 
 <!-- html table generated in R 2.15.3 by xtable 1.7-1 package -->
-<!-- Wed Dec 11 04:05:33 2013 -->
+<!-- Thu Dec 12 00:02:06 2013 -->
 <TABLE class='table table-striped table-hover table-bordered'>
 <CAPTION ALIGN="top"> Correlation of old variables with new factors </CAPTION>
 <TR> <TH>  </TH> <TH> Dim.1 </TH> <TH> Dim.2 </TH> <TH> Dim.3 </TH> <TH> Dim.4 </TH> <TH> Dim.5 </TH>  </TR>
@@ -202,7 +202,7 @@ Let's see the correlation of only the attributes used for dimemsionality reducti
 <h3><center>Let's see the factor scores now</center></h3>
 
 <!-- html table generated in R 2.15.3 by xtable 1.7-1 package -->
-<!-- Wed Dec 11 04:05:34 2013 -->
+<!-- Thu Dec 12 00:02:06 2013 -->
 <TABLE class='table table-striped table-hover table-bordered'>
 <CAPTION ALIGN="top"> Factor Scores </CAPTION>
 <TR> <TH>  </TH> <TH> Score </TH>  </TR>
@@ -217,6 +217,9 @@ Let's see the correlation of only the attributes used for dimemsionality reducti
   <TR> <TD align="right"> 9 </TD> <TD align="right"> 3.422 </TD> </TR>
   <TR> <TD align="right"> 10 </TD> <TD align="right"> 1.074 </TD> </TR>
    </TABLE>
+
+
+
 
 
 </div>
