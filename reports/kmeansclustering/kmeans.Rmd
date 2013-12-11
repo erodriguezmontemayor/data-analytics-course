@@ -61,6 +61,7 @@ size<-as.data.frame(fit$size)
 withinss<-as.data.frame(fit$withinss)
 k1<-cbind(size,withinss)
 colnames(k1)<-c("Members in each cluster","Vector of within-cluster sum of squares, one component per cluster")
+rownames(k1)<-c("Cluster1","Cluster2","Cluster3","Cluster4","Cluster5")
 assign1<-xtable(k1,caption="Assign individuals in their clusters")
 print(assign1,type="html",html.table.attributes = "class='table table-striped table-hover table-bordered',align='center'",caption.placement="top")
 
