@@ -1,164 +1,148 @@
-```{r include=FALSE}
-## load the FactoMineR library for factor analysis
-library(FactoMineR)
-## load the xtable library for table HTML output
+<div class="container">
+<center>
+<h2>TEMPLATE REPORT FOR DIMENSIONALITY REDUCTION</h2>
+
+<h2>CASE: MARKET RESEARCH, MARKET SEGMENTATION, PURCHASE DRIVERS</h2>
+</center>
+<hr>
+
+<!--Proccess Parameters:
+
+Please first edit the parameters in the chunk below. These parameters incude the data used as well as parameters regarding how many factors/drivers to find and with which statistical methods. The data loaded in that file are used in this report.-->
+
+```{r scree,echo=FALSE,include=FALSE,results='hide'}
+###Edit the parameters below
+#some nice libraries to do our job!#
 library(xtable)
-## load the Hmisc library for minor ticks in graphs
 library(Hmisc)
-
-## function to get the eigenvalues
-getdataforeigentable <- function(eigenvalues, eigenvalues.limit) {
-  data.for.eigentable <- c()
-
-  for(i in 1:nrow(eigenvalues)){
-    if(eigenvalues[i,1] > eigenvalues.limit){
-      
-    }else{
-      data.for.eigentable <- eigenvalues[1:i-1,]
-      break
-    }
-  }
-  
-  return(data.for.eigentable)
-}
-
-## function to get the corfacotr
-getcorfactortable <- function(corfactor, corfactor.limit){
-  for(i in 1:nrow(corfactor)){
-    for(j in 1:ncol(corfactor)){
-      if(corfactor[i,j] < corfactor.limit){
-        corfactor[i,j] <- NA
-      }
-    }
-  }
-  return(corfactor)
-}
-```
-
-### Load the dataset
-Load the whole dataset into mydatatemp. We can set the eigenvalues limit for the output table and corfactor limit for output correlation table.
-
-```{r}
+library(FactoMineR)
+library(ggplot2)
+#load the data
 mydatatemp <- read.csv("../../data/boat/boats.csv", header = TRUE)
-eigenvalues.limit <- 1
-corfactor.limit <- 0.4
+#check the columns
+columns<-ncol(mydatatemp)
+#get the right data
+thedata <- mydatatemp[,2:30]
+#execute factor analysis
+result <- PCA(thedata, graph=FALSE) # graphs generated automatically
+###code to get scree plot
+library(nFactors)
+ev <- eigen(cor(thedata)) # get eigenvalues
+ap <- parallel(subject=nrow(thedata),var=ncol(thedata),
+  rep=100,cent=.05)
+nS <- nScree(x=ev$values, aparallel=ap$eigen$qevpea)
+plotnScree(nS)
+
 ```
 
-Extract a subset of dataset to be used in Principal component analysis for Question 1. 
-```{r}
-mydata <- mydatatemp[,2:30]
+<center><h3>
+The Business Decision</h3></center>
+<hr>
+
+<p><u>The management team of a company is interested in understanding the **key purchase drivers of their customers** and understand its market through **market segmentation**.</u></p>  
+
+<center><h3>The Data</h3></center>
+<hr>
+
+
+<p><h4>In this case the managers use data from a **market research survey** of a few thousand potential prospects and customers. In this particular case there are 2000 respondents each having answered 75 questions, as this data summary shows.</h4></p> 
+
+```{r echo=FALSE,results='asis',warning=FALSE,error=FALSE,message=FALSE}
+datainfo<-as.data.frame(cbind(nrow(thedata),ncol(thedata)))
+colnames(datainfo)<-c("No.Respondents","No.Questions")
+datainfo<-xtable(datainfo,caption="Respondents - Questions")
+print(datainfo,type="html",html.table.attributes = "class='table table-striped table-hover table-bordered'",caption.placement="top")
+
 ```
 
---- .class #id 
+<p><b>For example the first respondent gave these answers for the first 10 Questions:</b></p>
+<br>
 
-### Principal Component Analysis
-We used PCA function from FactoMineR package. Store the PCA results into result object as following.
-```{r}
-result <- PCA(mydata, graph=FALSE)
+
+<center>
+```{r echo=FALSE,results='asis',warning=FALSE,error=FALSE,message=FALSE}
+first_res<-xtable(thedata[1,1:10],caption="First Respondent")
+print(first_res,type="html",html.table.attributes = "class='table table-striped table-hover table-bordered'",caption.placement="top")
+```
+</center>
+<br>
+<p>The questions for this case are described in the file Factor_analysis_Boat_SurveyQuestions.doc.</p>
+
+<center><h3>Purchase Drivers: The Dimensionality Reduction Process</h3></center>
+<hr>
+
+<p>The analysis is done using the 8 steps outlined in the report "DERIVED ATTRIBUTES AND DIMENSIONALITY REDUCTION METHODS". The results are as follows.</p>
+
+<!--Summary statistics of the data-->
+<center>
+
+```{r echo=FALSE,results='asis',warning=FALSE,error=FALSE,message=FALSE}
+summary_table<-xtable(summary(thedata[,1:10]),caption="Summary Table of Boat Data for first 10 Questions")
+print(summary_table,type="html",html.table.attributes = "class='table table-striped table-hover table-bordered'",caption.placement="top")
 ```
 
---- .class #id 
-
-### Results
-
-PCA results are stored in result object. Components of PCA can be accessed using following component names.
+</center>
 
 
-No |Name         |      Description                          
-------------|-----|---------|-----------
-1 | "$eig"        |     eigenvalues                        
-2 | "$var"         |    results for the variables         
-3 | "$var$coord"    |   coord. for the variables          
-4 | "$var$cor"       |  correlations variables - dimensions
-5 | "$var$cos2"      |   cos2 for the variables             
-6 | "$var$contrib"    |  contributions of the variables 
+Let's see the correlation of only the attributes used for dimemsionality reduction. We would like to only see the pairs for which the correlation is larger than 0.5 in absolute value (the threshold can change by changing the number in the command below).
+<br>
+<pre>
+```{r echo=FALSE}
+corthres = 0.4
 
---- .class #id 
+the_correlation = cor(thedata)
+for (i in 1:(ncol(thedata) - 1)) {
+    thecori = cor(thedata[, i], thedata)
+    useonly = setdiff(which(abs(thecori) > corthres), i)
+    labels_used = colnames(thedata)[useonly]
+    thecori = matrix(thecori[useonly], nrow = 1)
+    colnames(thecori) <- labels_used
+    cat("\nAttribute", colnames(thedata)[i], "has these correlations above", 
+        corthres, ": ")
+    if (length(thecori) == 0) 
+        cat("No Large Correlations") else sapply(1:ncol(thecori), function(j) cat(colnames(thecori)[j], ":", 
+        thecori[j], ","))
+}
 
-### Continue
+```
+</pre>
+<hr>
+<h3><center>Now let's get the factors using the selected method:</center></h3>
+<br>
+<h3><center>Get the eigenvalues</center></h3>
 
-No |Name         |      Description                          
-------------|-----|---------|-----------
-7 | "$ind"        |      results for the individuals        
-8 | "$ind$coord"   |     coord. for the individuals         
-9 | "$ind$cos2"   |      cos2 for the individuals           
-10 |"$ind$contrib"  |    contributions of the individuals  
-11 |"$call"       |      summary statistics              
-12 |"$call$centre"  |    mean of the variables            
-13 |"$call$ecart.type" | standard error of the variables  
-14 |"$call$row.w"    |   weights for the individuals        
-15 |"$call$col.w"   |    weights for the variables
-
---- .class #id 
-
-### Output and tables
-
-#### 1. Eigen Values &amp; Percentage of Total Variance
-
-Get the eigenvalues object. Create a table using xtable function from xtable library. However, we don't want to see all the data. We want to see only component which has eigenvalues greater than `r eigenvalues.limit`,
-
---- .class #id 
-
-
-```{r comment=NA, results='asis'}
+```{r  echo=FALSE,results='asis',warning=FALSE,error=FALSE,message=FALSE}
 eigenvalues<-result$eig
-
-data.for.eigentable <- getdataforeigentable(eigenvalues, eigenvalues.limit)
-
-print(xtable(head(data.for.eigentable), digits=3), comment = FALSE, include.rownames = TRUE, type='HTML')
-
+eigenvalues<-as.data.frame(eigenvalues)
+colnames(eigenvalues)<-c("Eigenvalues","percentage of variance","cumulative percentage of variance")
+eigenvalues<-xtable(eigenvalues,caption="Eigenvalues Table")
+print(eigenvalues,type="html",html.table.attributes = "class='table table-striped table-hover table-bordered'",caption.placement="top")
 ```
+<hr>
+<h3><center>Get the Scree Plot</center></h3>
 
---- .class #id 
+<center><img src='figure/scree.png'></center>
 
-#### 2. Scree Plot
-Generate a scree plot using following command. We assign the labels for x axis and y axis manually.
-```{r fig.height=4,fig.align='center',fig.width=5}
-## start to draw the plot
-plot(eigenvalues$eigenvalue, type="o", xlab="Component Number", ylab="Eigenvalue", col=colors()[26], lwd=2)
-## add minor ticks
-minor.tick(nx=5, ny=2)
-## add abline at y = 1
-abline(h=1,lty=2,col=colors()[34]) 
+<hr>
+<center><h4>Get the Correlation of old variables with new factors<h4></center>
 
-```
-
---- .class #id 
-
-#### 3. Correlation of old variables with new factors
-
-Correlation matrix of each new factor with the initial variables can be accessed with $var$cor component in result object. Create a table using xtable function from xtable library. However, we don't want to see all the correlations but which has correlation coefficient greater than `r corfactor.limit`.
-
---- .class #id 
-
-```{r results='asis'}
+```{r echo=FALSE,results='asis',warning=FALSE,error=FALSE,message=FALSE}
 corfactor <- result$var$cor
+corfactornew<-as.data.frame(corfactor)
 
-corfactor <- getcorfactortable(corfactor, corfactor.limit)
-
-print(xtable(head(corfactor), digits=3), comment = FALSE, include.rownames = TRUE, type='HTML')
+corfactornew<-xtable(corfactor,digits=3,caption="Correlation of old variables with new factors")
+print(corfactornew,type="html",html.table.attributes = "class='table table-striped table-hover table-bordered'",caption.placement="top")
 ```
 
---- .class #id 
+<h3><center>Let's see the factor scores now</center></h3>
 
-#### 4. Matrix:Respondents - Factors
-
-New matrix(number of respondents X number of factors) can be accessed at $ind$coord component of result object. First 10 rows are ouput as an example.
-
-```{r results='asis'}
+```{r echo=FALSE,results='asis',warning=FALSE,error=FALSE,message=FALSE}
 factormatrix <- result$ind$coord
+facmat<-as.data.frame(factormatrix[1:10])
+colnames(facmat)<-c("Score")
+scores<-xtable(facmat,caption="Factor Scores",digits=3)
+print(scores,type="html",html.table.attributes = "class='table table-striped table-hover table-bordered'",caption.placement="top")
 
-print(xtable(head(factormatrix[1:10,]), digits=3), comment = FALSE, include.rownames = TRUE, type='HTML')
 ```
 
---- .class #id 
-
-#### 5. Other interesting plots
-
-```{r} 
-plot(result$var$cos2)
-```
-
-```{r} 
-plot(result$ind$cos2)
-```
+</div>
