@@ -21,7 +21,10 @@ newdata <- cbind(factormatrix, mydatatemp[, colstart:colend])
 # K-Means Cluster Analysis
 #define no.of clusters with c variable
 c<-5
-fit <- kmeans(newdata, c)  # 5 cluster solution
+#define no.of maximum iterations
+iter = 10
+
+fit <- kmeans(newdata,iter.max=iter,centers=c)  # 5 cluster solution
 # get cluster means
 clusterlist<-aggregate(newdata, by = list(fit$cluster), FUN = mean)
 #assign 50 first individuals in their clusters.
@@ -32,7 +35,8 @@ assign<-fit$cluster[1:20]
 ```{r echo=FALSE,results='asis',warning=FALSE,error=FALSE,message=FALSE,resize.width=0.3}
 clusterlist<-as.data.frame(clusterlist)
 clusterlist<-t(clusterlist)
-clusterlist<-xtable(clusterlist,caption="Cluster list Table")
+colnames(clusterlist)<-c("Cluster1","Cluster2","Cluster3","Cluster4","Cluster5")
+clusterlist<-xtable(clusterlist,caption="Contribution of each component to the clusters")
 print(clusterlist,type="html",html.table.attributes = "class='table table-striped table-hover table-bordered'",caption.placement="top")
 
 ```
@@ -50,8 +54,36 @@ print(assign,type="html",html.table.attributes = "class='table table-striped tab
 
 ```
 <hr>
+<center><h6>Size of each cluster<br>
+
+```{r echo=FALSE,results='asis',warning=FALSE,error=FALSE,message=FALSE,resize.width=0.2}
+size<-as.data.frame(fit$size)
+withinss<-as.data.frame(fit$withinss)
+k1<-cbind(size,withinss)
+colnames(k1)<-c("Members in each cluster","Vector of within-cluster sum of squares, one component per cluster")
+assign1<-xtable(k1,caption="Assign individuals in their clusters")
+print(assign1,type="html",html.table.attributes = "class='table table-striped table-hover table-bordered',align='center'",caption.placement="top")
+
+```
+<hr>
 </h6>
-</center>Cluster Plot against 1st 2 principal components
+</center>
+<center><h6>Table with more info about clustering<br>
+
+```{r echo=FALSE,results='asis',warning=FALSE,error=FALSE,message=FALSE,resize.width=0.2}
+totss<-as.data.frame(fit$totss)
+totwithinss<-as.data.frame(fit$tot.withinss)
+betweens<-as.data.frame(fit$betweens)
+k2<-cbind(totss,totwithinss,betweens)
+colnames(k2)<-c("The total sum of squares","Total within-cluster sum of squares","Total within-cluster sum of squares")
+assign2<-xtable(k2,caption="Cluster statistics")
+print(assign2,type="html",html.table.attributes = "class='table table-striped table-hover table-bordered',align='center'",caption.placement="top")
+
+```
+<hr>
+</h6>
+</center>
+Cluster Plot against 1st 2 principal components
 ```{r plots,echo=FALSE,include=FALSE,results='hide'}
 #let's create some interesting plots
 # Cluster Plot against 1st 2 principal components
