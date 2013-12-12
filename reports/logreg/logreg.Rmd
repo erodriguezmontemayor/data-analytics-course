@@ -7,38 +7,64 @@
 </center>
 <hr>
 
-<!--Proccess Parameters:
+<!--The chunk above calls the code of logistic regression. It also  calls all needed libraries. The code of this chunk is silently executed but not showned in report-->
 
-Please first edit the parameters in the chunk below.-->
-
-```{r scree,echo=FALSE,include=FALSE,results='hide'}
+```{r echo=FALSE,include=FALSE,results='hide'}
 library(xtable)
 library(Hmisc)
-#run silently logistic regression and hide results from end users
-#read the data set
-mydata <- read.csv("../../data/boat/boats.csv", header = TRUE)
-#read columns for Q1-Q18
-mydata<-mydata[,2:82]
-#define dependent variable
-dep_data<-mydata$Q18
-#define independent variables
-mydata$Q18<-NULL
-#create logistic regression model
-ind_data<-as.matrix(mydata)
-mylogreg <- glm(dep_data ~ ind_data, family = "binomial")
-#display results
-print(summary(mylogreg))
-# 95% CI for the coefficients
-ci95<-confint(mylogreg)
-# exponentiated coefficients
-expo_coef<-exp(coef(mylogreg))
-# 95% CI for exponentiated coefficients
-expo_coef95<-exp(confint(mylogreg))
-# predicted values
-predicted_values<-predict(mylogreg, type="response") 
-# residuals
-residuals<-residuals(mylogreg, type="deviance")
+source('../../code/logreg/logreg.R')
+```
+<center><h4>The Data</h4>
+<hr>
+
+```{r echo=FALSE,results='asis',warning=FALSE,error=FALSE,message=FALSE,resize.width=0.3}
+data<-cbind(crs$nobs,length(crs$sample),length(crs$validate),length(crs$test))
+data<-as.data.frame(data)
+colnames(data)<-c("No.of Observations","No.of Sample","No.of Validation","No.of Train")
+data<-xtable(data,caption="Dataset logistic regression")
+print(data,type="html",html.table.attributes = "class='table table-striped table-hover table-bordered'",caption.placement="top")
 
 ```
+</center>
+<br>
+<center><h4>The Model</h4>
+<hr>
 
+```{r echo=FALSE,results='asis',warning=FALSE,error=FALSE,message=FALSE,resize.width=0.3}
+model<-xtable(summary(crs$glm),caption="Logistic Regression Model")
+print(model,type="html",html.table.attributes = "class='table table-striped table-hover table-bordered'",caption.placement="top")
+
+```
+</center>
+<br>
+<center><h4>The Anova Table</h4>
+<hr>
+
+```{r echo=FALSE,results='asis',warning=FALSE,error=FALSE,message=FALSE,resize.width=0.3}
+ano<-xtable(anova(crs$glm, test="Chisq"),caption="Anova Table")
+print(ano,type="html",html.table.attributes = "class='table table-striped table-hover table-bordered'",caption.placement="top")
+
+```
+</center>
+</br>
+<center><h4>Generate the confusion matrix</h4>
+<hr>
+
+```{r echo=FALSE,results='asis',warning=FALSE,error=FALSE,message=FALSE,resize.width=0.3}
+conf<-xtable(cm,caption="Confusion matrix")
+print(conf,type="html",html.table.attributes = "class='table table-striped table-hover table-bordered'",caption.placement="top")
+
+```
+</center>
+</br>
+<center><h4>Generate percetanges for confusion matrix</h4>
+<hr>
+
+```{r echo=FALSE,results='asis',warning=FALSE,error=FALSE,message=FALSE,resize.width=0.3}
+confp<-xtable(cmp,caption="Confusion matrix percentages")
+print(confp,type="html",html.table.attributes = "class='table table-striped table-hover table-bordered'",caption.placement="top")
+
+```
+</center>
+<br>
 </div>
